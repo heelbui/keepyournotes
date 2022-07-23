@@ -1,7 +1,8 @@
-package com.android.keepyournotes
+package com.android.keepyournotes.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.android.keepyournotes.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
