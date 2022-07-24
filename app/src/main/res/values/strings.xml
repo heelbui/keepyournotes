@@ -1,3 +1,26 @@
 <resources>
     <string name="app_name">KeepYourNotes</string>
+
+
+    <string name="login">Login</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="forgot_password_question">Forgot password?</string>
+    <string name="or">OR</string>
+    <string name="signin_with_google">Sign in with Google</string>
+    <string name="new_to_keepyournotes">New to KeepYourNotes?</string>
+    <string name="register">Register</string>
+    <string name="your_name">Your name</string>
+    <string name="phone">Phone</string>
+    <string name="retype_password">Retype password</string>
+    <string name="youre_agree_to_our">By signing up, you\'re agree to our</string>
+    <string name="terms_and_conditions">Terms &amp; Conditions</string>
+    <string name="and">and</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="logout">Logout</string>
+    <string name="get_started">Get started</string>
+    <string name="account_created_successfully">Account created successfully!</string>
+    <string name="notes">Notes</string>
+    <string name="search">Search</string>
+    <string name="settings">Settings</string>
 </resources>

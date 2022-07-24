@@ -7,15 +7,22 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/logokeepyournotesfull"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/logokeepyournotesround"
         android:supportsRtl="true"
-        android:theme="@style/Theme.KeepYourNotes"
+        android:theme="@style/Theme.KeepYourNotes.NoActionBar"
         tools:targetApi="31">
         <activity
             android:name=".activity.MainActivity"
-            android:exported="true">
+            android:exported="false" />
+        <activity
+            android:name=".activity.LoginActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.SplashActivity"
+            android:exported="true"
+            android:theme="@style/Theme.KeepYourNotes.FullScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
