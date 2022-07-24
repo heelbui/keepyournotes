@@ -4,15 +4,15 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.android.keepyournotes.R
-import com.android.keepyournotes.databinding.ActivityLoginBinding
+import com.android.keepyournotes.databinding.ActivityRegisterBinding
 
-class LoginActivity : AppCompatActivity() {
+class RegisterActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityLoginBinding
+    private lateinit var binding: ActivityRegisterBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityLoginBinding.inflate(layoutInflater)
+        binding = ActivityRegisterBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
 
@@ -21,12 +21,11 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun onEventHandle() {
-        binding.tvRegisterLogin.setOnClickListener {
-            Intent(this, RegisterActivity::class.java).also {
+        binding.ivBackRegister.setOnClickListener {
+            Intent(this, LoginActivity::class.java).also {
                 startActivity(it)
                 finish()
             }
         }
     }
-
 }
