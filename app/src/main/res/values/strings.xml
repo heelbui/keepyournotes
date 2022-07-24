@@ -6,8 +6,8 @@
     <string name="password">Password</string>
     <string name="forgot_password_question">Forgot password?</string>
     <string name="or">OR</string>
-    <string name="signin_with_google">Sign in with Google</string>
-    <string name="new_to_keepyournotes">New to KeepYourNotes?</string>
+    <string name="sign_in_with_google">Sign in with Google</string>
+    <string name="new_to_keep_your_notes">New to KeepYourNotes?</string>
     <string name="register">Register</string>
     <string name="your_name">Your name</string>
     <string name="phone">Phone</string>
@@ -46,7 +46,7 @@
     <string name="delete">Delete</string>
     <string name="dismiss">Dismiss</string>
     <string name="account_has_been_deleted">Account has been deleted!</string>
-    <string name="something_went_wrong">Something went wrong</string>
+    <string name="something_went_wrong">Something went wrong: </string>
     <string name="close">Close</string>
     <string name="choose_language">Choose language</string>
     <string name="cancel">Cancel</string>
@@ -125,6 +125,7 @@
     <string name="please_enter_your_phone">Please enter your phone number</string>
     <string name="phone_must_contain">"Phone number must contain at least 6 numbers"</string>
     <string name="please_check_your_info">Please check your information</string>
+    <string name="incorrect_email_or_password">Incorrect email or password</string>
     <string name="characters">characters</string>
     <string name="auth_failed">Authentication failed</string>
     <string name="email_exists">Email already exists</string>

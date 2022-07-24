@@ -21,7 +21,7 @@
                 android:layout_height="300dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="20dp"
-                android:src="@drawable/loginnote"
+                android:src="@drawable/login_note"
                 tools:ignore="ContentDescription" />
 
             <TextView
@@ -46,7 +46,7 @@
                     tools:ignore="ContentDescription" />
 
                 <EditText
-                    android:id="@+id/etEmailLogin"
+                    android:id="@+id/etEmail"
                     android:layout_width="match_parent"
                     android:layout_height="55dp"
                     android:layout_gravity="center_vertical"
@@ -59,7 +59,7 @@
             </LinearLayout>
 
             <TextView
-                android:id="@+id/tvEmailErrorLogin"
+                android:id="@+id/tvEmailError"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="40dp"
@@ -81,7 +81,7 @@
                     tools:ignore="ContentDescription" />
 
                 <EditText
-                    android:id="@+id/etPasswordLogin"
+                    android:id="@+id/etPassword"
                     android:layout_width="match_parent"
                     android:layout_height="55dp"
                     android:layout_gravity="center_vertical"
@@ -94,7 +94,7 @@
             </LinearLayout>
 
             <TextView
-                android:id="@+id/tvPasswordErrorLogin"
+                android:id="@+id/tvPasswordError"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="40dp"
@@ -103,7 +103,7 @@
                 android:visibility="gone" />
 
             <TextView
-                android:id="@+id/tvForgotPasswordLogin"
+                android:id="@+id/tvForgotPassword"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
@@ -190,7 +190,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_marginStart="50dp"
-                        android:text="@string/signin_with_google"
+                        android:text="@string/sign_in_with_google"
                         android:textColor="@color/black"
                         android:textSize="17sp" />
 
@@ -209,7 +209,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/new_to_keepyournotes" />
+                    android:text="@string/new_to_keep_your_notes" />
 
                 <TextView
                     android:id="@+id/tvRegisterLogin"

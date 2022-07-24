@@ -143,7 +143,7 @@ class RegisterActivity : AppCompatActivity() {
                             Log.d("Firebase", "createUserWithEmail:failed")
                             Toast.makeText(
                                 this,
-                                getText(R.string.something_went_wrong),
+                                getText(R.string.something_went_wrong).toString() + it.exception,
                                 Toast.LENGTH_LONG
                             ).show()
                         }
