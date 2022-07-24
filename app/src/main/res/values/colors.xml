@@ -11,6 +11,7 @@
     <!-- Custom color -->
     <color name="light_grey">#D7D7D7</color>
     <color name="blue">#3D5AFE</color>
+    <color name="dark_blue">#3949AB</color>
     <color name="light_blue">#B3E5FC</color>
     <color name="red">#FF1744</color>
     <color name="light_green">#f0fdf7</color>

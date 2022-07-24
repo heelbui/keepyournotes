@@ -13,7 +13,7 @@
         android:orientation="vertical">
 
         <ImageView
-            android:id="@+id/ivBackRegister"
+            android:id="@+id/ivBack"
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:layout_marginTop="20dp"
@@ -53,7 +53,7 @@
                 tools:ignore="ContentDescription" />
 
             <EditText
-                android:id="@+id/etNameRegister"
+                android:id="@+id/etName"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
                 android:layout_gravity="center_vertical"
@@ -66,7 +66,7 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/tvYourNameErrorRegister"
+            android:id="@+id/tvYourNameError"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="40dp"
@@ -88,7 +88,7 @@
                 tools:ignore="ContentDescription" />
 
             <EditText
-                android:id="@+id/etEmailRegister"
+                android:id="@+id/etEmail"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
                 android:layout_gravity="center_vertical"
@@ -101,7 +101,7 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/tvEmailErrorRegister"
+            android:id="@+id/tvEmailError"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="40dp"
@@ -123,7 +123,7 @@
                 tools:ignore="ContentDescription" />
 
             <EditText
-                android:id="@+id/etPasswordRegister"
+                android:id="@+id/etPassword"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
                 android:layout_gravity="center_vertical"
@@ -136,7 +136,7 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/tvPasswordErrorRegister"
+            android:id="@+id/tvPasswordError"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="40dp"
@@ -158,7 +158,7 @@
                 tools:ignore="ContentDescription" />
 
             <EditText
-                android:id="@+id/etRePasswordRegister"
+                android:id="@+id/etRePassword"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
                 android:layout_gravity="center_vertical"
@@ -171,7 +171,7 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/tvRePasswordErrorRegister"
+            android:id="@+id/tvRePasswordError"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="40dp"
@@ -193,7 +193,7 @@
                 tools:ignore="ContentDescription" />
 
             <EditText
-                android:id="@+id/etPhoneRegister"
+                android:id="@+id/etPhone"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
                 android:layout_gravity="center_vertical"
@@ -206,7 +206,7 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/tvPhoneErrorRegister"
+            android:id="@+id/tvPhoneError"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="40dp"
@@ -234,7 +234,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/tvTermsConditionsRegister"
+                android:id="@+id/tvTermsConditions"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/terms_and_conditions"
@@ -250,7 +250,7 @@
                 android:textSize="14sp" />
 
             <TextView
-                android:id="@+id/tvPrivacyPolicyRegister"
+                android:id="@+id/tvPrivacyPolicy"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/privacy_policy"

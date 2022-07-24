@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "748447471274",
+    "project_id": "keepyournotes-d3dc6",
+    "storage_bucket": "keepyournotes-d3dc6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:748447471274:android:683482ed773cd1a08ca2d3",
+        "android_client_info": {
+          "package_name": "com.android.keepyournotes"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "748447471274-t5a79cnrvf7hcdatmi5mencnedoe4heg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA-y6ZJZ6pfUvVZapuzu1HnnYlbQEObpgw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "748447471274-t5a79cnrvf7hcdatmi5mencnedoe4heg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
