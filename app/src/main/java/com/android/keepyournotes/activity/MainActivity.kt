@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun onEventHandle() {
-        binding.btnSignOut.setOnClickListener {
+        binding.ivMenu.setOnClickListener {
             fAuth.signOut()
             Intent(this, LoginActivity::class.java).also {
                 startActivity(it)

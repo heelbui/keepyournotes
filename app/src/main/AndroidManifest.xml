@@ -9,7 +9,7 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@drawable/logokeepyournotesfull"
+        android:icon="@drawable/logo_keep_your_notes_full"
         android:label="@string/app_name"
         android:roundIcon="@drawable/logokeepyournotesround"
         android:supportsRtl="true"

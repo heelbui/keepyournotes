@@ -137,4 +137,5 @@
     <string name="enter_your_email">Enter your email</string>
     <string name="txt_continue">Continue</string>
     <string name="email_sent">Email was sent successfully</string>
+    <string name="txt_notes">Notes</string>
 </resources>

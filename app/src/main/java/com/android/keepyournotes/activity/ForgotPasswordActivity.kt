@@ -38,7 +38,7 @@ class ForgotPasswordActivity : AppCompatActivity() {
                 finish()
             }
         }
-        binding.editTxtEmail.doOnTextChanged { text, start, before, count ->
+        binding.editTxtEmail.doOnTextChanged { text, _, _, _ ->
             if (android.util.Patterns.EMAIL_ADDRESS.matcher(text.toString()).matches()) {
                 auth.fetchSignInMethodsForEmail(text.toString()).addOnCompleteListener(this) {
                     if (it.isSuccessful) {
