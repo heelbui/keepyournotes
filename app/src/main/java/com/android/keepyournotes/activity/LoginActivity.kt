@@ -56,26 +56,41 @@ class LoginActivity : AppCompatActivity() {
             if (isValidEmail(binding.etEmail.text.toString()) &&
                 isValidPassword(binding.etPassword.text.toString())
             ) {
-                fAuth.signInWithEmailAndPassword(
-                    binding.etEmail.text.toString(),
-                    binding.etPassword.text.toString()
-                ).addOnCompleteListener {
-                    if (it.isSuccessful) {
-                        Toast.makeText(this, getText(R.string.login_successful), Toast.LENGTH_SHORT)
-                            .show()
-                        Intent(this, MainActivity::class.java).also { intent ->
-                            startActivity(intent)
-                            finish()
+                fAuth.fetchSignInMethodsForEmail(binding.etEmail.text.toString())
+                    .addOnCompleteListener(this) { task ->
+                        if (task.isSuccessful) {
+                            if (task.result.signInMethods.isNullOrEmpty()) {
+                                binding.tvEmailError.visibility = View.VISIBLE
+                                binding.tvEmailError.text =
+                                    getText(R.string.this_email_not_registered)
+                            } else {
+                                binding.tvEmailError.visibility = View.GONE
+                                fAuth.signInWithEmailAndPassword(
+                                    binding.etEmail.text.toString(),
+                                    binding.etPassword.text.toString()
+                                ).addOnCompleteListener {
+                                    if (it.isSuccessful) {
+                                        Toast.makeText(
+                                            this,
+                                            getText(R.string.login_successful),
+                                            Toast.LENGTH_SHORT
+                                        )
+                                            .show()
+                                        Intent(this, MainActivity::class.java).also { intent ->
+                                            startActivity(intent)
+                                            finish()
+                                        }
+                                    } else {
+                                        binding.tvPasswordError.visibility = View.VISIBLE
+                                        binding.tvPasswordError.text =
+                                            getText(R.string.incorrect_password)
+                                    }
+                                }
+                            }
+                        } else {
+                            Log.d("TAG", "fetchSignInMethodsForEmail: failed")
                         }
-                    } else {
-                        Toast.makeText(
-                            this,
-                            getText(R.string.incorrect_email_or_password).toString(),
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        Log.e("Firebase", it.exception.toString())
                     }
-                }
             }
         }
 

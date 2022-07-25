@@ -125,7 +125,7 @@
     <string name="please_enter_your_phone">Please enter your phone number</string>
     <string name="phone_must_contain">"Phone number must contain at least 6 numbers"</string>
     <string name="please_check_your_info">Please check your information</string>
-    <string name="incorrect_email_or_password">Incorrect email or password</string>
+    <string name="incorrect_password">Incorrect password</string>
     <string name="characters">characters</string>
     <string name="auth_failed">Authentication failed</string>
     <string name="email_exists">Email already exists</string>
