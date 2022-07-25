@@ -18,17 +18,12 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
-        val view = binding.root
-        setContentView(view)
+        setContentView(binding.root)
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
 
-        init()
+        fAuth = Firebase.auth
         onEventHandle()
 
-    }
-
-    private fun init() {
-        fAuth = Firebase.auth
     }
 
     private fun onEventHandle() {

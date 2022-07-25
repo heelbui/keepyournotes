@@ -30,18 +30,13 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
-        val view = binding.root
-        setContentView(view)
+        setContentView(binding.root)
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
 
-        init()
-        onEventHandle()
-
-    }
-
-    private fun init() {
         googleSignIn()
         fAuth = Firebase.auth
+        onEventHandle()
+
     }
 
     private companion object {
@@ -49,6 +44,13 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun onEventHandle() {
+
+        binding.tvForgotPassword.setOnClickListener {
+            Intent(this, ForgotPasswordActivity::class.java).also {
+                startActivity(it)
+                finish()
+            }
+        }
 
         binding.btnLogin.setOnClickListener {
             if (isValidEmail(binding.etEmail.text.toString()) &&

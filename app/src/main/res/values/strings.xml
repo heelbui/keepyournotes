@@ -133,4 +133,8 @@
     <string name="title">Title</string>
     <string name="content">Content</string>
     <string name="save">Save</string>
+    <string name="fill_your_registered_email">Please fill in your registered email from the box below. We will send you a confirmation link.</string>
+    <string name="enter_your_email">Enter your email</string>
+    <string name="txt_continue">Continue</string>
+    <string name="email_sent">Email was sent successfully</string>
 </resources>
