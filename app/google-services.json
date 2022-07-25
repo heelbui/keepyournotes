@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "748447471274",
+    "firebase_url": "https://keepyournotes-d3dc6-default-rtdb.asia-southeast1.firebasedatabase.app",
     "project_id": "keepyournotes-d3dc6",
     "storage_bucket": "keepyournotes-d3dc6.appspot.com"
   },
@@ -13,6 +14,14 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "748447471274-bihqvnll6j3stq4q6ouet02h96aclrit.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.android.keepyournotes",
+            "certificate_hash": "375302a49d52ca0c7cbc4ae18c71778ca0af2b19"
+          }
+        },
         {
           "client_id": "748447471274-t5a79cnrvf7hcdatmi5mencnedoe4heg.apps.googleusercontent.com",
           "client_type": 3

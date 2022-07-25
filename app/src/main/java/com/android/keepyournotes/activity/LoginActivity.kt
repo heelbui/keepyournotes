@@ -6,22 +6,33 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatDelegate
 import com.android.keepyournotes.R
 import com.android.keepyournotes.databinding.ActivityLoginBinding
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import java.lang.Exception
 
+@Suppress("DEPRECATION")
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
     private lateinit var fAuth: FirebaseAuth
+    private lateinit var googleSignInClient: GoogleSignInClient
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
 
         init()
         onEventHandle()
@@ -29,7 +40,12 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun init() {
+        googleSignIn()
         fAuth = Firebase.auth
+    }
+
+    private companion object {
+        private const val RC_SIGN_IN = 9001
     }
 
     private fun onEventHandle() {
@@ -61,12 +77,63 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
+        binding.cardGoogleLogin.setOnClickListener {
+            Log.d("TAG", "onCreate: GoogleSignIn")
+            val intent = googleSignInClient.signInIntent
+            startActivityForResult(intent, RC_SIGN_IN)
+        }
+
         binding.tvRegisterLogin.setOnClickListener {
             Intent(this, RegisterActivity::class.java).also {
                 startActivity(it)
                 finish()
             }
         }
+    }
+
+    @Deprecated("Deprecated in Java")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == RC_SIGN_IN) {
+            val accountTask = GoogleSignIn.getSignedInAccountFromIntent(data)
+            try {
+                val account = accountTask.getResult(ApiException::class.java)
+                firebaseAuthWithGoogleAccount(account)
+            } catch (e: Exception) {
+                Log.e("TAG", "onActivityResult: google Sign in failed ${e.message}")
+            }
+        }
+    }
+
+    private fun firebaseAuthWithGoogleAccount(account: GoogleSignInAccount?) {
+        val credentialsApi = GoogleAuthProvider.getCredential(account?.idToken, null)
+        fAuth.signInWithCredential(credentialsApi).addOnCompleteListener {
+            val firebaseUser = fAuth.currentUser
+            //get user info
+            val uid = firebaseUser?.uid
+            val email = firebaseUser?.email
+
+            Log.d("TAG", "firebaseAuthWithGoogleAccount: $uid")
+            Log.d("TAG", "firebaseAuthWithGoogleAccount: $email")
+
+            // navigate to main
+            Intent(this, MainActivity::class.java).also {
+                startActivity(it)
+                finish()
+            }
+
+        }.addOnFailureListener {
+            Log.d("TAG", "firebaseAuthWithGoogleAccount: ${it.message}")
+        }
+    }
+
+    private fun googleSignIn() {
+        val googleSignInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(getString(R.string.default_web_client_id))
+            .requestEmail()
+            .build()
+        googleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions)
     }
 
     private fun isValidEmail(email: String): Boolean {
