@@ -12,8 +12,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import com.android.keepyournotes.R
 import com.android.keepyournotes.databinding.ActivityMainBinding
@@ -61,18 +61,9 @@ class MainActivity : AppCompatActivity() {
                     getText(R.string.refreshing),
                     Toast.LENGTH_LONG
                 ).show()
-                R.id.item_language -> Toast.makeText(
-                    this,
-                    getText(R.string.language),
-                    Toast.LENGTH_LONG
-                ).show()
                 R.id.item_sign_out -> signOut()
                 R.id.item_change_pass -> changePassword()
-                R.id.item_delete_account -> Toast.makeText(
-                    this,
-                    getText(R.string.delete_account),
-                    Toast.LENGTH_LONG
-                ).show()
+                R.id.item_delete_account -> deleteAccount()
                 R.id.item_feedback -> sendFeedback()
             }
             binding.drawerLayout.closeDrawer(GravityCompat.START)
@@ -88,6 +79,31 @@ class MainActivity : AppCompatActivity() {
             name.text = it.displayName
             email.text = it.email
         }
+    }
+
+    private fun deleteAccount() {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle(getText(R.string.are_you_sure))
+        builder.setMessage(getText(R.string.your_account_will_be_remove))
+        builder.setPositiveButton(getText(R.string.delete)) { dialog, _ ->
+            dialog.dismiss()
+            val user = Firebase.auth.currentUser!!
+            user.delete()
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        Log.d("TAG", "deleteAccount: deleted.")
+                        fAuth.signOut()
+                        Intent(this, LoginActivity::class.java).also {
+                            startActivity(it)
+                            finish()
+                        }
+                    } else {
+                        Log.e("TAG", "deleteAccount: ${task.exception}")
+                    }
+                }
+        }.setNegativeButton(getText(R.string.cancel)) { dialog, _ ->
+            dialog.dismiss()
+        }.show()
     }
 
     @SuppressLint("InflateParams")

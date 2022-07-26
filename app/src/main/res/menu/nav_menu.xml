@@ -9,10 +9,10 @@
                     android:icon="@drawable/ic_baseline_refresh_24"
                     android:title="@string/refresh" />
                 <item
-                    android:id="@+id/item_language"
+                    android:id="@+id/item_sign_out"
                     android:checkable="false"
-                    android:icon="@drawable/ic_outline_language_24"
-                    android:title="@string/language" />
+                    android:icon="@drawable/logout"
+                    android:title="@string/sign_out" />
             </group>
         </menu>
     </item>
@@ -20,10 +20,10 @@
         <menu>
             <group android:checkableBehavior="single">
                 <item
-                    android:id="@+id/item_sign_out"
+                    android:id="@+id/item_change_name"
                     android:checkable="false"
-                    android:icon="@drawable/logout"
-                    android:title="@string/sign_out" />
+                    android:icon="@drawable/ic_outline_person_outline_24"
+                    android:title="@string/change_name" />
                 <item
                     android:id="@+id/item_change_pass"
                     android:checkable="false"
