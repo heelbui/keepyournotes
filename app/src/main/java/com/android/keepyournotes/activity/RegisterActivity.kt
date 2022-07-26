@@ -27,10 +27,14 @@ class RegisterActivity : AppCompatActivity() {
         setContentView(binding.root)
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
 
-        fAuth = Firebase.auth
-        db = FirebaseDatabase.getInstance("https://keepyournotes-d3dc6-default-rtdb.asia-southeast1.firebasedatabase.app/").reference
+        init()
         onEventHandle()
 
+    }
+
+    private fun init() {
+        fAuth = Firebase.auth
+        db = FirebaseDatabase.getInstance("https://keepyournotes-d3dc6-default-rtdb.asia-southeast1.firebasedatabase.app/").reference
     }
 
     private fun onEventHandle() {
@@ -169,7 +173,6 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     data class User(val name: String? = null, val email: String? = null)
-
 
     private fun isValidEmail(str: String): Boolean {
         return android.util.Patterns.EMAIL_ADDRESS.matcher(str).matches()

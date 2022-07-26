@@ -22,12 +22,15 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.*
+import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var fAuth: FirebaseAuth
+    private lateinit var db: DatabaseReference
 
     private lateinit var toggle: ActionBarDrawerToggle
 
@@ -37,13 +40,18 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
 
-        fAuth = Firebase.auth
+        init()
         onEventHandle()
 
     }
 
     private companion object {
         const val EMAIL_ADDRESS = "huuhieu992001@gmail.com"
+    }
+
+    private fun init() {
+        fAuth = Firebase.auth
+        db = FirebaseDatabase.getInstance("https://keepyournotes-d3dc6-default-rtdb.asia-southeast1.firebasedatabase.app/").reference
     }
 
     private fun onEventHandle() {
@@ -75,11 +83,47 @@ class MainActivity : AppCompatActivity() {
         val name = headerView.findViewById<TextView>(R.id.drawer_your_name)
         val email = headerView.findViewById<TextView>(R.id.drawer_email)
         avatar.setImageResource(R.drawable.logo_keep_your_notes_full)
-        fAuth.currentUser?.let {
-            name.text = it.displayName
-            email.text = it.email
+        val user = fAuth.currentUser
+        user?.let {
+            val postListener = object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    var check = false
+                    for (data: DataSnapshot in dataSnapshot.children) {
+                        val post = data.getValue<User>()
+                        if (post?.email == user.email) {
+                            name.text = post?.name
+                            email.text = post?.email
+                            check = true
+                        }
+                    }
+                    if (!check) {
+                        createUserProfile(user.displayName.toString(), user.email.toString())
+                        name.text = user.displayName
+                        email.text = user.email
+                    }
+                }
+
+                override fun onCancelled(databaseError: DatabaseError) {
+                    Log.w("TAG", "loadPost:onCancelled", databaseError.toException())
+                }
+            }
+            db.child("users").addValueEventListener(postListener)
         }
     }
+
+    private fun createUserProfile(name: String, email: String) {
+        val key = db.child("users").push().key.toString()
+        val user = RegisterActivity.User(name.trim(), email.trim())
+        db.child("users").child(key).setValue(user).addOnCompleteListener {
+            if (it.isSuccessful) {
+                Log.w("TAG", "createUserProfile: success")
+            } else {
+                Log.e("TAG", "createUserProfile: ${it.exception}")
+            }
+        }
+    }
+
+    data class User(val name: String? = null, val email: String? = null)
 
     private fun deleteAccount() {
         val builder = AlertDialog.Builder(this)
