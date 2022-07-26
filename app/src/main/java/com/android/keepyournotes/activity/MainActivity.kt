@@ -5,15 +5,21 @@ import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import com.android.keepyournotes.R
 import com.android.keepyournotes.databinding.ActivityMainBinding
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -50,11 +56,23 @@ class MainActivity : AppCompatActivity() {
 
         binding.navigationView.setNavigationItemSelectedListener {
             when (it.itemId) {
-                R.id.item_refresh -> Toast.makeText(this, getText(R.string.refreshing), Toast.LENGTH_LONG).show()
-                R.id.item_language -> Toast.makeText(this, getText(R.string.language), Toast.LENGTH_LONG).show()
+                R.id.item_refresh -> Toast.makeText(
+                    this,
+                    getText(R.string.refreshing),
+                    Toast.LENGTH_LONG
+                ).show()
+                R.id.item_language -> Toast.makeText(
+                    this,
+                    getText(R.string.language),
+                    Toast.LENGTH_LONG
+                ).show()
                 R.id.item_sign_out -> signOut()
-                R.id.item_change_pass -> Toast.makeText(this, getText(R.string.change_password), Toast.LENGTH_LONG).show()
-                R.id.item_delete_account -> Toast.makeText(this, getText(R.string.delete_account), Toast.LENGTH_LONG).show()
+                R.id.item_change_pass -> changePassword()
+                R.id.item_delete_account -> Toast.makeText(
+                    this,
+                    getText(R.string.delete_account),
+                    Toast.LENGTH_LONG
+                ).show()
                 R.id.item_feedback -> sendFeedback()
             }
             binding.drawerLayout.closeDrawer(GravityCompat.START)
@@ -70,6 +88,127 @@ class MainActivity : AppCompatActivity() {
             name.text = it.displayName
             email.text = it.email
         }
+    }
+
+    @SuppressLint("InflateParams")
+    private fun changePassword() {
+        val sheetView = layoutInflater.inflate(R.layout.layout_bottomsheet_changepassword, null)
+        val dialog = BottomSheetDialog(this)
+        dialog.setContentView(sheetView)
+        dialog.setCancelable(false)
+        dialog.show()
+
+        sheetView.findViewById<ImageView>(R.id.ivCloseCP).setOnClickListener {
+            dialog.dismiss()
+        }
+
+        val currentPass = sheetView.findViewById<TextInputEditText>(R.id.etCurrentPassCP)
+        val layoutCP = sheetView.findViewById<TextInputLayout>(R.id.tfCurrentPassCP)
+        val newPass = sheetView.findViewById<TextInputEditText>(R.id.etNewPassCP)
+        val layoutNP = sheetView.findViewById<TextInputLayout>(R.id.tfNewPassCP)
+        val confirmPass = sheetView.findViewById<TextInputEditText>(R.id.etConfirmPassCP)
+        val layoutCNP = sheetView.findViewById<TextInputLayout>(R.id.tfConfirmPassCP)
+        val btnChange = sheetView.findViewById<Button>(R.id.btnChangeCP)
+
+        currentPass.setOnFocusChangeListener { _, b ->
+            if (!b) {
+                if (currentPass.text.toString().isEmpty()) {
+                    layoutCP.isHelperTextEnabled = true
+                    layoutCP.helperText = getText(R.string.please_enter_your_password)
+                } else {
+                    fAuth.signInWithEmailAndPassword(
+                        fAuth.currentUser?.email.toString(),
+                        currentPass.text.toString()
+                    ).addOnCompleteListener {
+                        if (it.isSuccessful) {
+                            layoutCP.isHelperTextEnabled = false
+                        } else {
+                            layoutCP.isHelperTextEnabled = true
+                            layoutCP.helperText = getText(R.string.wrong_password)
+                        }
+                    }
+                }
+            } else {
+                layoutCP.isHelperTextEnabled = false
+            }
+        }
+
+        newPass.setOnFocusChangeListener { _, b ->
+            if (!b) {
+                if (newPass.text.toString().isEmpty()) {
+                    layoutNP.isHelperTextEnabled = true
+                    layoutNP.helperText = getText(R.string.please_enter_your_password)
+                } else {
+                    if (newPass.text.toString().length < 8) {
+                        layoutNP.isHelperTextEnabled = true
+                        layoutNP.helperText = getText(R.string.password_must_contain)
+                    } else {
+                        layoutNP.isHelperTextEnabled = false
+                    }
+                }
+            } else {
+                layoutNP.isHelperTextEnabled = false
+            }
+        }
+
+        confirmPass.setOnFocusChangeListener { _, b ->
+            if (!b) {
+                if (confirmPass.text.toString().isEmpty()) {
+                    layoutCNP.isHelperTextEnabled = true
+                    layoutCNP.helperText = getText(R.string.please_enter_your_password)
+                } else {
+                    if (confirmPass.text.toString() == newPass.text.toString()) {
+                        layoutCNP.isHelperTextEnabled = true
+                        layoutCNP.helperText = getText(R.string.password_not_match)
+                    } else {
+                        layoutCNP.isHelperTextEnabled = false
+                    }
+                }
+            } else {
+                layoutCNP.isHelperTextEnabled = false
+            }
+        }
+
+        btnChange.setOnClickListener {
+            btnChange.isEnabled = false
+            if (currentPass.text.toString().isNotEmpty() &&
+                newPass.text.toString().isNotEmpty() &&
+                confirmPass.text.toString().isNotEmpty() &&
+                newPass.text.toString().length >= 8 &&
+                confirmPass.text.toString() == newPass.text.toString()
+            ) {
+                val user = Firebase.auth.currentUser
+                val newPassword = newPass.text.toString()
+
+                user!!.updatePassword(newPassword)
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            Log.d("TAG", "updatePassword: updated.")
+                            Toast.makeText(
+                                this,
+                                getText(R.string.your_password_updated),
+                                Toast.LENGTH_LONG
+                            )
+                                .show()
+                            dialog.dismiss()
+                            fAuth.signOut()
+                            Intent(this, LoginActivity::class.java).also {
+                                startActivity(it)
+                                finish()
+                            }
+                        } else {
+                            Log.e("TAG", "updatePassword: ${task.exception}")
+                            Toast.makeText(
+                                this,
+                                getText(R.string.something_wrong_try_again),
+                                Toast.LENGTH_LONG
+                            ).show()
+                            btnChange.isEnabled = true
+                        }
+                    }
+            }
+        }
+
     }
 
     @SuppressLint("QueryPermissionsNeeded")

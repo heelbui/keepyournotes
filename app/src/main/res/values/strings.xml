@@ -36,7 +36,7 @@
     <string name="update">Update</string>
     <string name="change_password">Change password</string>
     <string name="new_password">New password</string>
-    <string name="retype_new_password">Retype new password</string>
+    <string name="retype_new_password">Confirm new password</string>
     <string name="quick_notes">Quick Notes</string>
     <string name="current_password">Current password</string>
     <string name="check_for_update">Checking for update…</string>
@@ -144,4 +144,6 @@
     <string name="open">Open</string>
     <string name="refreshing">Refreshing…</string>
     <string name="signed_out">Signed out</string>
+    <string name="updated">Updated</string>
+    <string name="your_password_updated">Your password was updated. Please sign in again!</string>
 </resources>
