@@ -11,12 +11,15 @@ import com.android.keepyournotes.R
 import com.android.keepyournotes.databinding.ActivityRegisterBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.ktx.Firebase
 
 class RegisterActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityRegisterBinding
     private lateinit var fAuth: FirebaseAuth
+    private lateinit var db: DatabaseReference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,6 +28,7 @@ class RegisterActivity : AppCompatActivity() {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
 
         fAuth = Firebase.auth
+        db = FirebaseDatabase.getInstance("https://keepyournotes-d3dc6-default-rtdb.asia-southeast1.firebasedatabase.app/").reference
         onEventHandle()
 
     }
@@ -112,30 +116,16 @@ class RegisterActivity : AppCompatActivity() {
             }
         }
 
-        binding.etPhone.setOnFocusChangeListener { _, b ->
-            if (!b) {
-                if (binding.etPhone.text.toString().length >= 6) {
-                    binding.tvPhoneError.visibility = View.GONE
-                } else {
-                    binding.tvPhoneError.visibility = View.VISIBLE
-                    binding.tvPhoneError.text = getText(R.string.phone_must_contain)
-                }
-            } else {
-                binding.tvPhoneError.visibility = View.GONE
-            }
-        }
-
         binding.btnRegister.setOnClickListener {
+            binding.btnRegister.isEnabled = false
             if (binding.etName.text.toString().isNotEmpty() &&
                 binding.etEmail.text.toString().isNotEmpty() &&
                 binding.etPassword.text.toString().isNotEmpty() &&
                 binding.etRePassword.text.toString().isNotEmpty() &&
-                binding.etPhone.text.toString().isNotEmpty() &&
                 isValidEmail(binding.etEmail.text.toString()) &&
-                binding.etPhone.text.toString().length >= 6 &&
                 binding.etPassword.text.toString() == binding.etRePassword.text.toString()
             ) {
-
+                createUserProfile(binding.etName.text.toString(), binding.etEmail.text.toString())
                 fAuth.createUserWithEmailAndPassword(
                     binding.etEmail.text.toString().trim(),
                     binding.etPassword.text.toString().trim()
@@ -158,12 +148,28 @@ class RegisterActivity : AppCompatActivity() {
                         }
                     }
             } else {
+                binding.btnRegister.isEnabled = true
                 Toast.makeText(this, getText(R.string.please_check_your_info), Toast.LENGTH_SHORT)
                     .show()
             }
         }
 
     }
+
+    private fun createUserProfile(name: String, email: String) {
+        val key = db.child("users").push().key.toString()
+        val user = User(name.trim(), email.trim())
+        db.child("users").child(key).setValue(user).addOnCompleteListener {
+            if (it.isSuccessful) {
+                Log.w("TAG", "createUserProfile: success")
+            } else {
+                Log.e("TAG", "createUserProfile: ${it.exception}")
+            }
+        }
+    }
+
+    data class User(val name: String? = null, val email: String? = null)
+
 
     private fun isValidEmail(str: String): Boolean {
         return android.util.Patterns.EMAIL_ADDRESS.matcher(str).matches()

@@ -34,6 +34,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             android:text="@string/register"
             android:textColor="@color/black"
             android:textSize="40sp"
@@ -58,10 +59,10 @@
                 android:layout_height="55dp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="10dp"
+                android:autofillHints=""
                 android:hint="@string/your_name"
                 android:inputType="textCapWords"
-                android:maxLength="30"
-                android:autofillHints="" />
+                android:maxLength="30" />
 
         </LinearLayout>
 
@@ -93,10 +94,10 @@
                 android:layout_height="55dp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="10dp"
+                android:autofillHints=""
                 android:hint="@string/email"
                 android:inputType="textEmailAddress"
-                android:maxLength="40"
-                android:autofillHints="" />
+                android:maxLength="40" />
 
         </LinearLayout>
 
@@ -128,10 +129,10 @@
                 android:layout_height="55dp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="10dp"
+                android:autofillHints=""
                 android:hint="@string/password"
                 android:inputType="textPassword"
-                android:maxLength="20"
-                android:autofillHints="" />
+                android:maxLength="20" />
 
         </LinearLayout>
 
@@ -163,10 +164,10 @@
                 android:layout_height="55dp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="10dp"
+                android:autofillHints=""
                 android:hint="@string/retype_password"
                 android:inputType="textPassword"
-                android:maxLength="20"
-                android:autofillHints="" />
+                android:maxLength="20" />
 
         </LinearLayout>
 
@@ -182,42 +183,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="26dp"
-                android:layout_height="26dp"
-                android:layout_gravity="center_vertical"
-                android:src="@drawable/ic_outline_phone_24"
-                tools:ignore="ContentDescription" />
-
-            <EditText
-                android:id="@+id/etPhone"
-                android:layout_width="match_parent"
-                android:layout_height="55dp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginStart="10dp"
-                android:hint="@string/phone"
-                android:inputType="phone"
-                android:maxLength="12"
-                android:autofillHints="" />
-
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/tvPhoneError"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="40dp"
-            android:text=""
-            android:textColor="@color/red"
-            android:visibility="gone" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:orientation="horizontal">
 
             <TextView
