@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:title="@string/settings">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/item_refresh"
+                    android:checkable="false"
+                    android:icon="@drawable/ic_baseline_refresh_24"
+                    android:title="@string/refresh" />
+                <item
+                    android:id="@+id/item_language"
+                    android:checkable="false"
+                    android:icon="@drawable/ic_outline_language_24"
+                    android:title="@string/language" />
+            </group>
+        </menu>
+    </item>
+    <item android:title="@string/account_information">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/item_sign_out"
+                    android:checkable="false"
+                    android:icon="@drawable/logout"
+                    android:title="@string/sign_out" />
+                <item
+                    android:id="@+id/item_change_pass"
+                    android:checkable="false"
+                    android:icon="@drawable/ic_outline_vpn_key_24"
+                    android:title="@string/change_password" />
+                <item
+                    android:id="@+id/item_delete_account"
+                    android:checkable="false"
+                    android:icon="@drawable/ic_outline_delete_24"
+                    android:title="@string/delete_account" />
+            </group>
+        </menu>
+    </item>
+    <item android:title="@string/about_us">
+        <menu>
+            <item
+                android:id="@+id/item_feedback"
+                android:checkable="false"
+                android:icon="@drawable/ic_outline_feedback_24"
+                android:title="@string/send_feedback" />
+        </menu>
+    </item>
+</menu>
