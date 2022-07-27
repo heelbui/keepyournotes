@@ -18,5 +18,15 @@
     <color name="green">#00ca71</color>
     <color name="light_yellow">#FFFDE7</color>
     <color name="normal_yellow">#FFF9C4</color>
+    
+    <color name="light_brown">#EAE4E9</color>
+    <color name="light_yellow_tight">#FFF1E6</color>
+    <color name="light_orange">#FDE2E4</color>
+    <color name="light_red">#FAD2E1</color>
+    <color name="light_green_tight">#E2ECE9</color>
+    <color name="light_green_dark">#BEE1E6</color>
+    <color name="light_green_yel">#F0EFEB</color>
+    <color name="light_blue_tight">#DFE7FD</color>
+    <color name="light_blue_dark">#CDDAFD</color>
 
 </resources>

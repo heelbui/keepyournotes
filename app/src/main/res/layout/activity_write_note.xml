@@ -73,7 +73,7 @@
                 android:id="@+id/etTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/light_blue"
+                android:background="#F4F4F4"
                 android:inputType="textMultiLine|textCapSentences"
                 android:hint="@string/title"
                 android:textColor="@color/black"
