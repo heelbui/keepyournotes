@@ -5,6 +5,8 @@ import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.text.InputType
 import android.util.Log
 import android.view.MenuItem
@@ -103,11 +105,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.navigationView.setNavigationItemSelectedListener {
             when (it.itemId) {
-                R.id.item_refresh -> Toast.makeText(
-                    this,
-                    getText(R.string.refreshing),
-                    Toast.LENGTH_LONG
-                ).show()
+                R.id.item_refresh -> refreshPage()
                 R.id.item_sign_out -> signOut()
                 R.id.item_change_name -> changeName()
                 R.id.item_change_pass -> changePassword()
@@ -411,6 +409,13 @@ class MainActivity : AppCompatActivity() {
             startActivity(it)
             finish()
         }
+    }
+
+    private fun refreshPage() {
+        Toast.makeText(this, getText(R.string.refreshing), Toast.LENGTH_SHORT).show()
+        Handler(Looper.getMainLooper()).postDelayed({
+            Toast.makeText(this, getText(R.string.done), Toast.LENGTH_SHORT).show()
+        }, 1000)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

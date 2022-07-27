@@ -99,5 +99,6 @@
     <string name="saved">Saved</string>
     <string name="nothing_here">Nothing here</string>
     <string name="deleted">Deleted</string>
+    <string name="done">Done</string>
     <string name="your_note_will_be_delete">Your note will be delete and this action can not undo! </string>
 </resources>
