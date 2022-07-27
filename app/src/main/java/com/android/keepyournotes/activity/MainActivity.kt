@@ -8,13 +8,15 @@ import android.os.Bundle
 import android.text.InputType
 import android.util.Log
 import android.view.MenuItem
+import android.view.View
 import android.widget.*
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.GravityCompat
-import androidx.core.view.marginStart
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.keepyournotes.R
+import com.android.keepyournotes.adapter.NoteRecyclerAdapter
 import com.android.keepyournotes.databinding.ActivityMainBinding
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.textfield.TextInputEditText
@@ -24,6 +26,9 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity() {
 
@@ -32,6 +37,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var db: DatabaseReference
 
     private lateinit var toggle: ActionBarDrawerToggle
+    private lateinit var linearLayoutManager: LinearLayoutManager
+    private lateinit var adapter: NoteRecyclerAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,6 +59,38 @@ class MainActivity : AppCompatActivity() {
         fAuth = Firebase.auth
         db =
             FirebaseDatabase.getInstance("https://keepyournotes-d3dc6-default-rtdb.asia-southeast1.firebasedatabase.app/").reference
+
+        val postListener = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val listOfNotes: ArrayList<WriteNoteActivity.Note> = arrayListOf()
+                var check = false
+                for (data: DataSnapshot in dataSnapshot.children) {
+                    val post = data.getValue<WriteNoteActivity.Note>()
+                    if (post?.creator == fAuth.currentUser?.uid) {
+                        post?.let { listOfNotes.add(it) }
+                        check = true
+                    }
+                }
+                if (!check) {
+                    binding.coverMain.visibility = View.VISIBLE
+                    binding.recyclerviewNote.visibility = View.GONE
+                } else {
+                    binding.coverMain.visibility = View.GONE
+                    binding.recyclerviewNote.visibility = View.VISIBLE
+
+                    linearLayoutManager = LinearLayoutManager(this@MainActivity)
+                    adapter = NoteRecyclerAdapter(listOfNotes)
+                    binding.recyclerviewNote.layoutManager = linearLayoutManager
+                    binding.recyclerviewNote.adapter = adapter
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                Log.w("TAG", "loadPost:onCancelled", databaseError.toException())
+            }
+        }
+        db.child("notes").addValueEventListener(postListener)
+
     }
 
     private fun onEventHandle() {
@@ -109,6 +148,36 @@ class MainActivity : AppCompatActivity() {
                 }
             }
             db.child("users").addValueEventListener(postListener)
+        }
+
+        binding.floatingBtn.setOnClickListener {
+            createNote()
+        }
+
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    private fun createNote() {
+        val sdf = SimpleDateFormat("EEE, d MMM yyyy")
+        val currentDate = sdf.format(Date())
+
+        val title = ""
+        val content = ""
+        val date = currentDate.toString()
+        val creator = fAuth.currentUser?.uid.toString()
+        val key = db.child("notes").push().key.toString()
+        val note = WriteNoteActivity.Note(key, title, content, date, creator)
+
+        db.child("notes").child(key).setValue(note).addOnCompleteListener {
+            if (it.isSuccessful) {
+                Log.w("TAG", "createNote: success")
+                Intent(this, WriteNoteActivity::class.java).also { intent ->
+                    intent.putExtra("key", key)
+                    startActivity(intent)
+                }
+            } else {
+                Log.e("TAG", "createNote: ${it.exception}")
+            }
         }
     }
 

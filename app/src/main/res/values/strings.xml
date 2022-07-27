@@ -95,4 +95,9 @@
     <string name="change_name">Change display name</string>
     <string name="enter_your_new_name">Enter your new name</string>
     <string name="ok">OK</string>
+    <string name="MM_dd_yyyy">MM dd, yyyy</string>
+    <string name="saved">Saved</string>
+    <string name="nothing_here">Nothing here</string>
+    <string name="deleted">Deleted</string>
+    <string name="your_note_will_be_delete">Your note will be delete and this action can not undo! </string>
 </resources>
