@@ -93,4 +93,6 @@
     <string name="updated">Updated</string>
     <string name="your_password_updated">Your password was updated. Please sign in again!</string>
     <string name="change_name">Change display name</string>
+    <string name="enter_your_new_name">Enter your new name</string>
+    <string name="ok">OK</string>
 </resources>

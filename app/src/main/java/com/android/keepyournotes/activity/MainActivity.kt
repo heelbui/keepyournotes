@@ -5,16 +5,15 @@ import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.InputType
 import android.util.Log
 import android.view.MenuItem
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.GravityCompat
+import androidx.core.view.marginStart
 import com.android.keepyournotes.R
 import com.android.keepyournotes.databinding.ActivityMainBinding
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -51,7 +50,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun init() {
         fAuth = Firebase.auth
-        db = FirebaseDatabase.getInstance("https://keepyournotes-d3dc6-default-rtdb.asia-southeast1.firebasedatabase.app/").reference
+        db =
+            FirebaseDatabase.getInstance("https://keepyournotes-d3dc6-default-rtdb.asia-southeast1.firebasedatabase.app/").reference
     }
 
     private fun onEventHandle() {
@@ -70,6 +70,7 @@ class MainActivity : AppCompatActivity() {
                     Toast.LENGTH_LONG
                 ).show()
                 R.id.item_sign_out -> signOut()
+                R.id.item_change_name -> changeName()
                 R.id.item_change_pass -> changePassword()
                 R.id.item_delete_account -> deleteAccount()
                 R.id.item_feedback -> sendFeedback()
@@ -111,12 +112,62 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun changeName() {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle(getText(R.string.change_name))
+        val input = EditText(this)
+        input.hint = getText(R.string.enter_your_new_name)
+        input.inputType = InputType.TYPE_CLASS_TEXT
+        builder.setView(input)
+        builder.setPositiveButton(getText(R.string.ok)) { dialog, _ ->
+            if (input.text.toString().isNotEmpty()) {
+                val postListener = object : ValueEventListener {
+                    override fun onDataChange(dataSnapshot: DataSnapshot) {
+                        for (data: DataSnapshot in dataSnapshot.children) {
+                            val post = data.getValue<User>()
+                            if (post?.email == fAuth.currentUser?.email) {
+                                updateUser(
+                                    data.key.toString(),
+                                    input.text.toString(),
+                                    fAuth.currentUser?.email.toString()
+                                )
+                            }
+                        }
+                    }
+
+                    override fun onCancelled(databaseError: DatabaseError) {
+                        Log.w("TAG", "loadPost:onCancelled", databaseError.toException())
+                    }
+                }
+                db.child("users").addValueEventListener(postListener)
+
+            } else dialog.dismiss()
+        }
+        builder.setNegativeButton(getText(R.string.cancel)) { dialog, _ -> dialog.dismiss() }
+        builder.show()
+    }
+
+    private fun updateUser(key: String, name: String, email: String) {
+        val userInfo = mapOf<String, Any?>(
+            "name" to name,
+            "email" to email
+        )
+        db.child("users").child(key).updateChildren(userInfo).addOnCompleteListener {
+            if (it.isSuccessful) {
+                Log.w("TAG", "updateUser: success")
+            } else {
+                Log.e("TAG", "updateUser: ${it.exception}")
+            }
+        }
+    }
+
     private fun createUserProfile(name: String, email: String) {
         val key = db.child("users").push().key.toString()
         val user = RegisterActivity.User(name.trim(), email.trim())
         db.child("users").child(key).setValue(user).addOnCompleteListener {
             if (it.isSuccessful) {
                 Log.w("TAG", "createUserProfile: success")
+                Toast.makeText(this, getText(R.string.updated), Toast.LENGTH_SHORT).show()
             } else {
                 Log.e("TAG", "createUserProfile: ${it.exception}")
             }
